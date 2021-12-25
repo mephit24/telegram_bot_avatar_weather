@@ -1,0 +1,5 @@
+.env
+telegram_bot_avatar_weather
+data
+__pycache__
+*.session
