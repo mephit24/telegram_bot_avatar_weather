@@ -5,6 +5,15 @@ from tempfile import gettempdir
 from get_weather import get_weather
 from pic import pic, PATH
 
+#Delay of change photo
+delay = 7200    #sec
+def countdown(delay):
+    i = delay
+    while i >= 0:
+        sleep(1)
+        i -= 1
+        print(f"Update photo in: {i}sec", end='\r')
+
 #Get config from .env
 config = Env()
 config.read_env()
@@ -35,6 +44,8 @@ while True:
         lastpic = picname
         with open(f"{gettempdir()}\\botlastpic", "w", encoding='UTF-8') as lastpicfile:   #Save current pic to file
             lastpicfile.write(picname)
-    sleep(3600)
+    countdown(delay)
+    
+
     
 
