@@ -11,12 +11,11 @@ if not os.path.exists(f"{PATH}\\data"):
     os.mkdir(f"{PATH}\\data")
 
 #Delay of change photo
-delay = 7200    #sec
+DELAY = 7200    #sec
 def countdown(delay):
-    i = delay
-    while i >= 0:
+    while delay >= 0:
         sleep(1)
-        i -= 1
+        delay -= 1
         print(f"Update photo in: {i:04d} sec", end='\r')
 
 #Get config from .env
@@ -49,5 +48,4 @@ while True:
         lastpic = picname
         with open(f"{gettempdir()}\\botlastpic", "w", encoding='UTF-8') as lastpicfile:   #Save current pic to file
             lastpicfile.write(picname)
-    countdown(delay)
-    
+    countdown(DELAY)
