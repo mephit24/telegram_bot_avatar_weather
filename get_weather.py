@@ -19,10 +19,3 @@ def get_weather(api_address, api_key, lat, lon):
     ans_full = json.loads(ans.text)
 
     return ans_full["fact"]["icon"]
-
-
-
-
-
-
-

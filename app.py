@@ -1,9 +1,14 @@
 from pyrogram import Client
 from environs import Env
 from time import sleep
+import os
 from tempfile import gettempdir
 from get_weather import get_weather
 from pic import pic, PATH
+
+#Create data directory
+if not os.path.exists(f"{PATH}\\data"):
+    os.mkdir(f"{PATH}\\data")
 
 #Delay of change photo
 delay = 7200    #sec
@@ -12,7 +17,7 @@ def countdown(delay):
     while i >= 0:
         sleep(1)
         i -= 1
-        print(f"Update photo in: {i}sec", end='\r')
+        print(f"Update photo in: {i:04d} sec", end='\r')
 
 #Get config from .env
 config = Env()
@@ -46,6 +51,3 @@ while True:
             lastpicfile.write(picname)
     countdown(delay)
     
-
-    
-
