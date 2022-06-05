@@ -6,18 +6,6 @@ from tempfile import gettempdir
 from get_weather import get_weather
 from pic import pic, PATH
 
-#Create data directory
-if not os.path.exists(f"{PATH}\\data"):
-    os.mkdir(f"{PATH}\\data")
-
-#Delay of change avatar
-DELAY = 7200    #sec
-def countdown(delay):
-    while delay >= 0:
-        sleep(1)
-        delay -= 1
-        print(f"Update photo in: {delay:04d} sec", end='\r')
-
 #Get config from .env
 config = Env()
 config.read_env()
@@ -31,24 +19,42 @@ api_key = config.str("YA_API_KEY")
 lat = config.str("lat")
 lon = config.str("lon")
 
-#Create bot
-bot = Client("mephit_bot", id, hash)
+DELAY = config.int("DELAY")
 
+#Create data directory
+if not os.path.exists(f"{PATH}/data"):
+    os.mkdir(f"{PATH}/data")
+
+#Delay of change avatar
+def countdown(delay):
+    while delay >= 0:
+        sleep(1)
+        delay -= 1
+        print(f"Update photo in: {delay:04d} sec", end='\r')
+        
+#Telegram handler
+bot = Client("mephit_bot", id, hash)
+        
 #Mainloop
-if not os.path.exists(f"{gettempdir()}\\botlastpic"):
-    f = open(f"{gettempdir()}\\botlastpic", "w")
+tempfile = f"{gettempdir()}/botlastpic"
+if not os.path.exists(tempfile):
+    f = open(tempfile, "x")
     f.close()
-with open(f"{gettempdir()}\\botlastpic", "r", encoding='UTF-8') as lastpicfile: #Read last picname from file
+with open(tempfile, "r", encoding='UTF-8') as lastpicfile: #Read last picname from file
     lastpic = lastpicfile.read()
 while True:
-    picname = get_weather(api_address, api_key, lat, lon)
+    try:
+        picname = get_weather(api_address, api_key, lat, lon)
+    except:
+        print("Weather API not access!")
+        picname = lastpic
     if picname != lastpic:  #Check match last and current pictures
         pic(picname)
         with bot:
-            photos = bot.get_profile_photos("me")   #Get avatars list
-            bot.delete_profile_photos([p.file_id for p in photos[3:]])  #Delete old avatars
+            photos = bot.get_chat_photos("me")   #Get avatars list
+            bot.delete_profile_photos([p.file_id for p in list(photos)[3:]])  #Delete old avatars
             bot.set_profile_photo(photo=f"{PATH}/data/{picname}.png")    #Add new avatar
         lastpic = picname
-        with open(f"{gettempdir()}\\botlastpic", "w", encoding='UTF-8') as lastpicfile:   #Save current pic to file
+        with open(tempfile, "w", encoding='UTF-8') as lastpicfile:   #Save current pic to file
             lastpicfile.write(picname)
     countdown(DELAY)
