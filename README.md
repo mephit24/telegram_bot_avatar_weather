@@ -7,7 +7,7 @@ Probably will be need install CairoSVG on your OS:
 
 For start:
 1) Edit and rename .env.dist in app directory
-2) Run once from app directory: python3 -m pip install -r requiremets.txt
+2) Run once from app directory: python3 -m pip install -r requirements.txt
 3) Run from app directory: python3 app.py
 
 or
