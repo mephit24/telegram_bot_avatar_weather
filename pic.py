@@ -8,4 +8,4 @@ def pic(picname):
 
         #Convert icon to png and write to file
         cairosvg.svg2png(url=f"https://yastatic.net/weather/i/icons/funky/dark/{picname}.svg", \
-            write_to=f"{PATH}/data/{picname}.png", parent_height=300, parent_width=300, scale=7)
+            write_to=f"{PATH}/data/{picname}.png", output_height=640, output_width=640, background_color="000000")
