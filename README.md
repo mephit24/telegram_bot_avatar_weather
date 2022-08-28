@@ -1,6 +1,7 @@
 Bot edit your avatar in telegram account accordingly current weather.
 
 Probably will be need install CairoSVG on your OS:
+
     for Linux https://www.cairographics.org/download/
     for Windows https://github.com/tschoonj/GTK-for-Windows-Runtime-Environment-Installer/releases
 
